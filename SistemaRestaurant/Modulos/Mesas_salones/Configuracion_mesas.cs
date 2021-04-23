@@ -15,6 +15,8 @@ namespace SistemaRestaurant.Modulos.Mesas_salones
     {
         int id_salon;
         string estado;
+       public static string nombre_mesa;
+       public static int id_mesa;
         public Configuracion_mesas()
         {
             InitializeComponent();
@@ -25,7 +27,80 @@ namespace SistemaRestaurant.Modulos.Mesas_salones
             panelbienvenidad.Dock = DockStyle.Fill;
             dibujarsalones();
         }
+        private void dibujarMesas()
+        {
+            try
+            {
+                panelmesas.Controls.Clear();
+                Conexion.ConexionMaestra.abrir();
+                SqlCommand cmd = new SqlCommand("mostrar_mesas_por_salon", Conexion.ConexionMaestra.conectar);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_salon", id_salon);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Button b = new Button();
+                    Panel panel = new Panel();
+                    int alto = Convert.ToInt32(rdr["y"].ToString());
+                    int ancho = Convert.ToInt32(rdr["x"].ToString());
+                    int tamanio_letra = Convert.ToInt32(rdr["tamanio_letra"].ToString());
 
+                    Point tamnio = new Point(ancho, alto);
+                    panel.BackgroundImage = Properties.Resources.imgmesavacia;
+                    panel.BackgroundImageLayout = ImageLayout.Zoom;
+                    panel.Cursor = Cursors.Hand;
+                    panel.Tag = rdr["id_mesa"].ToString();
+                    panel.Size = new System.Drawing.Size(tamnio);
+
+                    b.Text = rdr["num_mesa"].ToString();
+                    b.Name = rdr["id_mesa"].ToString();
+
+                    if (b.Text!="NULO")
+                    {
+                        b.Size = new System.Drawing.Size(tamnio);
+                        b.BackColor = Color.FromArgb(5, 179, 90);
+                        b.Font = new System.Drawing.Font("Microsoft Sans Serif", tamanio_letra);
+                        b.FlatStyle = FlatStyle.Flat;
+                        b.FlatAppearance.BorderSize = 0;
+                        b.ForeColor = Color.White;
+                        panelmesas.Controls.Add(b);
+                    }
+                    else
+                    {
+                        panelmesas.Controls.Add(panel);
+                    }
+                    b.Click += new EventHandler(mievento);
+                    panel.Click += new EventHandler(mievento_panel_click);
+                }
+                Conexion.ConexionMaestra.cerrar();
+            }
+            catch (Exception ex)
+            {
+                Conexion.ConexionMaestra.cerrar();
+                MessageBox.Show(ex.StackTrace);
+            }
+           
+        }
+        private void mievento(System.Object sender,EventArgs e)
+        {
+            nombre_mesa = ((Button)sender).Text;
+            id_mesa =Convert.ToInt32( ((Button)sender).Name);
+            Agregar_mesa frm = new Agregar_mesa();
+            frm.FormClosed += new FormClosedEventHandler(frm_agregar_mesa_FormClosed);
+            frm.ShowDialog();
+
+        }
+        private void mievento_panel_click(System.Object sender, EventArgs e)
+        {
+            id_mesa = Convert.ToInt32(((Panel)sender).Tag);
+            Agregar_mesa frm = new Agregar_mesa();
+            frm.FormClosed += new FormClosedEventHandler(frm_agregar_mesa_FormClosed);
+            frm.ShowDialog();
+        }
+        private void frm_agregar_mesa_FormClosed(Object sender, FormClosedEventArgs e)
+        {
+            dibujarMesas();
+        }
         private void dibujarsalones()
         {
             try
@@ -84,7 +159,7 @@ namespace SistemaRestaurant.Modulos.Mesas_salones
             panelmesas.Dock = DockStyle.Fill;
             id_salon = Convert.ToInt32(((Button)sender).Name);
             estado = Convert.ToString(((Button)sender).Tag);
-
+            dibujarMesas();
             foreach (Panel Panelc1 in flowLayoutPanelsalones.Controls )  
             {
                 if(Panelc1 is Panel)

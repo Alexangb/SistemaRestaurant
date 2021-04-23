@@ -61,6 +61,12 @@
     </Compile>
     <Compile Include="Librerias\Desencryptacion.cs" />
     <Compile Include="Librerias\Encryptacion.cs" />
+    <Compile Include="Modulos\Mesas_salones\Agregar_mesa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\Mesas_salones\Agregar_mesa.Designer.cs">
+      <DependentUpon>Agregar_mesa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modulos\Mesas_salones\Configuracion_mesas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <EmbeddedResource Include="Conexion\ConexionManual.resx">
       <DependentUpon>ConexionManual.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\Mesas_salones\Agregar_mesa.resx">
+      <DependentUpon>Agregar_mesa.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modulos\Mesas_salones\Configuracion_mesas.resx">
       <DependentUpon>Configuracion_mesas.cs</DependentUpon>
     </EmbeddedResource>
@@ -92,6 +101,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -106,6 +116,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\imgmesavacia.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
