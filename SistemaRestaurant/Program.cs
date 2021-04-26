@@ -16,7 +16,7 @@ namespace SistemaRestaurant
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Modulos.Mesas_salones.Configuracion_mesas());
+            Application.Run(new Modulos.Productos.Productos_rest());
         }
     }
 }

@@ -46,7 +46,7 @@ namespace SistemaRestaurant.Modulos.Mesas_salones
                     int tamanio_letra = Convert.ToInt32(rdr["tamanio_letra"].ToString());
 
                     Point tamnio = new Point(ancho, alto);
-                    panel.BackgroundImage = Properties.Resources.imgmesavacia;
+                    panel.BackgroundImage = Properties.Resources.mesa_vacia;
                     panel.BackgroundImageLayout = ImageLayout.Zoom;
                     panel.Cursor = Cursors.Hand;
                     panel.Tag = rdr["id_mesa"].ToString();
@@ -205,6 +205,92 @@ namespace SistemaRestaurant.Modulos.Mesas_salones
             dibujarsalones();
         }
 
+        private void btnmasmesa_Click(object sender, EventArgs e)
+        {
+            aumentarTamañoMesa();
+        }
+        internal void aumentarTamañoMesa()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                Conexion.ConexionMaestra.abrir();
+                cmd = new SqlCommand("aumentar_tamanio_mesa", Conexion.ConexionMaestra.conectar);
+                cmd.ExecuteNonQuery();
+                Conexion.ConexionMaestra.cerrar();
+                dibujarMesas();
+            }
+            catch (Exception ex)
+            {
 
+                MessageBox.Show(ex.StackTrace);
+            }
+        }
+        internal void disminuirTamañoMesa()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                Conexion.ConexionMaestra.abrir();
+                cmd = new SqlCommand("disminuir_tamaño_mesa", Conexion.ConexionMaestra.conectar);
+                cmd.ExecuteNonQuery();
+                Conexion.ConexionMaestra.cerrar();
+                dibujarMesas();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnmenosmesa_Click(object sender, EventArgs e)
+        {
+            disminuirTamañoMesa();
+        }
+
+        private void btnmasletra_Click(object sender, EventArgs e)
+        {
+            aumentarTamañoLetra();
+        }
+        internal void aumentarTamañoLetra()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                Conexion.ConexionMaestra.abrir();
+                cmd = new SqlCommand("aumentar_tamanio_letra", Conexion.ConexionMaestra.conectar);
+                cmd.ExecuteNonQuery();
+                Conexion.ConexionMaestra.cerrar();
+                dibujarMesas();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnmenosletra_Click(object sender, EventArgs e)
+        {
+            disminuirTamañoLetra();
+        }
+        internal void disminuirTamañoLetra()
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                Conexion.ConexionMaestra.abrir();
+                cmd = new SqlCommand("disminuir_tamanio_letra", Conexion.ConexionMaestra.conectar);
+                cmd.ExecuteNonQuery();
+                Conexion.ConexionMaestra.cerrar();
+                dibujarMesas();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
